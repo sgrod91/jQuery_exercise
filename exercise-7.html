@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Todo List Exercise</title>
+    <script src="jquery.js"></script>
+    <script>
+    /*
+    Make a Todo List
+
+    0. Make it so that after entering the task description, in the text field and clicking the "Add Task" button, a new task appears inside the element with the id todo-list.
+    1. the ability to remove tasks (add an x button)
+    2. the ability to check off tasks - strikes them out wo removing (add a checkbox)
+    3. the ability to delete a task
+    4. the ability to edit an existing task
+*/
+    $(function() {
+        $('#add-button').click(function(){
+            var item = $('#description').val();
+            var delButton = '<button class="delete"> Delete </button>';
+            var editButton = '<button class="edit"> Edit</button>';
+            var checkBox = '<input type="checkbox" name="checkbox" value="off" class="checkbox">';
+            $('#todo-list').append('<li>' + item + delButton + editButton + checkBox + '</li>');
+            $('#description').val('');
+        }); // End add button click
+        $('#todo-list').on('click', '.delete', function(){
+            $(this).parent().remove();
+        }); // End delete button click
+        $('#todo-list').on('click', '.edit', function(){
+            var input = '<input id="editTask" type="text" name="editTask"><button id="editTaskButton">Edit Task</button>';
+            var newInput = $(this).parent().html(input);
+            $('#editTaskButton').click(function(){
+                var delButton = '<button class="delete"> Delete </button>';
+                var editButton = '<button class="edit"> Edit</button>';
+                var checkBox = '<input type="checkbox" name="checkbox" value="off" class="checkbox">';
+                var updatedTask = $(this).prev().val();
+                $(this).parent().text(updatedTask).append(delButton + editButton + checkBox);
+            }); // end Edit Task button click
+        }); // End edit button click
+        $('#todo-list').on('click', '.checkbox', function() {
+            $(this).attr('value', 'on');
+            $(this).parent('li').toggleClass('strikethrough');
+        }); // End checkbox click
+    }); // End document.ready
+    </script>
+    <style>
+    #wrapper {
+      max-width: 480px;
+      margin: auto;
+    }
+    #description, #search, #todo-list {
+      font-size: 1.5em;
+    }
+    button {
+        margin: 3px;
+    }
+    li {
+        margin-right: 5px;
+    }
+    .strikethrough {
+        text-decoration: line-through;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <input id="description" type="text" name="description">
+      <button id="add-button">Add Task</button>
+      <ul id="todo-list">
+        <li>Feed the cat
+            <button class="delete">Delete</button>
+            <button class="edit">Edit</button>
+            <input type="checkbox" name="checkbox" value="off" class="checkbox">
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
